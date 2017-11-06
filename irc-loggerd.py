@@ -76,9 +76,9 @@ class Bot(SimpleIRCClient):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('server')
-    parser.add_argument('channel')
-    parser.add_argument('name')
+    parser.add_argument('server', help="server to connect to")
+    parser.add_argument('channel', help="channel to join")
+    parser.add_argument('name', help="name of channel/fifo")
     parser.add_argument('-p', '--port', default=9999, type=int)
     return parser.parse_args()
 
