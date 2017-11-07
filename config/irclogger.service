@@ -1,0 +1,13 @@
+[Unit]
+Description=IRC Logger
+After=network.target
+
+[Service]
+Type=simple
+User=xxx
+WorkingDirectory=/tmp
+ExecStart=irclogger
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
