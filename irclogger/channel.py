@@ -16,5 +16,9 @@ class Channel(object):
         if os.path.exists(self.path):
             os.remove(self.path)
 
-    def open(self):
-        return open(self.path)
+    def open(self, mode=None):
+        return open(self.path, mode=mode)
+
+    def write(self, line):
+        with self.open("w") as f:
+            f.write(line.encode("utf-8") + "\n")

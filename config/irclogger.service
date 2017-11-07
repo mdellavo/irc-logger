@@ -3,8 +3,9 @@ Description=IRC Logger
 After=network.target
 
 [Service]
+EnvironmentFile=/etc/defaults/irclogger
 Type=simple
-User=xxx
+User=
 WorkingDirectory=/tmp
 ExecStart=irclogger
 Restart=on-abort
