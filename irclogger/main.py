@@ -1,10 +1,6 @@
 import sys
-import ssl
 import argparse
 import logging
-
-from irc.connection import Factory
-from irc.client import ServerConnectionError
 
 from irclogger import Bot
 
@@ -30,23 +26,9 @@ def main():
     ch.setFormatter(formatter)
     root.addHandler(ch)
 
-    bot = Bot(args.server, args.channel, args.name)
-
-    try:
-        ssl_factory = Factory(wrapper=ssl.wrap_socket)
-        bot.connect(
-            args.server,
-            args.port,
-            args.name,
-            connect_factory=ssl_factory
-        )
-    except ServerConnectionError as x:
-        print(x)
-        sys.exit(1)
+    bot = Bot(args.server_host, args.server_port, args.channel, args.name)
 
     try:
         bot.start()
     except KeyboardInterrupt:
-        bot.reactor.disconnect_all()
-
-
+        bot.die()
