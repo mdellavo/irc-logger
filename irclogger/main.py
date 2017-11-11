@@ -26,7 +26,7 @@ def main():
     ch.setFormatter(formatter)
     root.addHandler(ch)
 
-    bot = Bot(args.server_host, args.server_port, args.channel, args.name)
+    bot = Bot(args.server, args.port, args.channel, args.name)
 
     try:
         bot.start()

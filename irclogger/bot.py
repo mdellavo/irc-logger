@@ -47,7 +47,7 @@ class Bot(SingleServerIRCBot):
 
     @property
     def server_port(self):
-        return self.server_list[0].server_port
+        return self.server_list[0].port
 
     def say(self, fmt, *args, **kwargs):
         self.connection.privmsg(self.channel, fmt.format(*args, **kwargs))
