@@ -18,6 +18,7 @@ def channel_writer(channel, queue):
     while True:
         msg = queue.get()
         ensure_written(channel, msg)
+        queue.task_done()
 
 
 class IRCHandler(Handler):
@@ -29,10 +30,19 @@ class IRCHandler(Handler):
         self.queue = Queue(maxsize=max_size)
 
         self.thread = threading.Thread(target=channel_writer, args=(self.channel, self.queue))
+        self.thread.setDaemon(True)
         self.thread.start()
 
     def emit(self, record):
+        msg = self.format(record)
         try:
-            self.queue.put_nowait(self.format(record))
+            self.queue.put_nowait(msg)
         except Full:
-            pass
+            raise Exception("Queue full, dropping message: " + msg)
+
+    def close(self):
+        self.acquire()
+        try:
+            self.queue.join()
+        finally:
+            self.release()
